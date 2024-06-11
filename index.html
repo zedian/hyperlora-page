@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="Task-Agnostic Low-Rank Adapters for Unseen English Dialects">
+  <meta name="keywords" content="Dialect, Dialect Adaptation, Linguistic Diversity, Fairness, Human-Centered NLP">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Task-Agnostic Low-Rank Adapters for Unseen English Dialects</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+
+  <style>
+    table.customTable {
+      width: 50%;
+      background-color: #FFFFFF;
+      border-collapse: collapse;
+      border-width: 2px;
+      border-color: rgb(214, 236, 244);
+      border-style: solid;
+      color: #000000;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    table.customTable td {
+      border-width: 2px;
+      border-color: rgb(214, 236, 244);
+      border-style: solid;
+      padding: 5px;
+      text-align: center; 
+      vertical-align: middle;
+    }
+
+    table.customTable th {
+      border-width: 2px;
+      border-color: rgb(214, 236, 244);
+      border-style: solid;
+      padding: 5px;
+    }
+    
+    table.customTable thead {
+      background-color: rgb(214, 236, 244);
+    }
+
+    .specialtext {
+        color: #2F5596; /* mydarkblue */
+        font-family: monospace;
+        font-weight: bold;
+    }
+    </style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">Task-Agnostic Low-Rank Adapters for Unseen English Dialects</h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://zedian.github.io/">Zedian (Mark) Xiao</a><sup>2</sup>,</span>
+            <span class="author-block">
+              <a href="https://williamheld.com/">William Held</a><sup>1</sup>,</span>
+            <span class="author-block">
+              <a href="https://liuyanchen1015.github.io/">Yanchen Liu</a><sup>3</sup>,</span>
+            <span class="author-block">
+              <a href="https://cs.stanford.edu/~diyiy/">Diyi Yang</a><sup>2</sup>,
+            </span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>1</sup>Georgia Institute of Technology,</span>
+            <span class="author-block"><sup>2</sup>Stanford University,</span>
+            <span class="author-block"><sup>3</sup>Harvard University</span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <img src="./static/images/GeorgiaTech_RGB.png" width="220" align="absmiddle"/>  
+            </span>
+            <span class="author-block">
+                <img src="./static/images/stanford-university-logo-2.png" width="200" align="absmiddle"/>  
+              </span>
+            <span class="author-block">
+              <img src="./static/images/harvard.png" width="220" align="absmiddle"/>  
+            </span>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <a href="https://arxiv.org/pdf/2311.00915"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://arxiv.org/abs/2311.00915"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              <!-- Code Link. -->
+              <span class="link-block">
+                <a href="https://github.com/zedian/hyperlora"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                  </a>
+              </span>
+                  </a>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <figure class="image-container" style="margin: auto">
+        <img src="./static/images/hyperlora.png"
+             class="summary-image"
+             alt="HyperLoRA"
+             style="width: 65%; display: block; margin-left: auto; margin-right: auto;">
+        <figcaption class="image-caption" style="text-align: center">
+          HyperLoRA generates lightweight LoRA adapters from dialect features to adapt any Standard American English model to any English dialect with known typology. HyperLoRA generated dialect adapters can be directly used in any downstream task to improve performance before any further downstream fine-tuning.
+        </figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+           
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            Large Language Models (LLMs) are trained on corpora  disproportionally weighted in favor of Standard American English. As a result, speakers of other dialects experience significantly more failures when interacting with these technologies. In practice, these speakers often accommodate their speech to be better understood. Our work shares the belief that language technologies should be designed to accommodate the diversity in English dialects and not the other way around. However, prior works on dialect struggle with generalizing to evolving and emerging dialects in a scalable manner. To fill this gap, our method, HyperLoRA, leverages expert linguistic knowledge to enable resource-efficient adaptation via hypernetworks. By disentangling dialect-specific and cross-dialectal information, HyperLoRA improves generalization to unseen dialects in a task-agnostic fashion. Not only is HyperLoRA more scalable in the number of parameters, but it also achieves the best or most competitive performance across 5 English dialects in a zero-shot setting. In this way, our approach facilitates access to language technology for billions of English dialect speakers who are traditionally underrepresented.
+          </p>
+        </div>
+      </div>
+    </div>
+    <!--/ Abstract. -->
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column">
+        <div class="content">
+          <h2 class="title is-3">Background</h2>
+          <p>
+            With the increasingly widespread integration of LLMs in our daily tools, workflows, and assistants, it is important for these LLMs to be inclusive of all English speakers. However, this is not the case as the majority of works are designed and developed around Standard American English. Prior research observes a decrease in performance when applying these language technologies to English dialects linguistically distant from Standard American English. As dialects evolve and new dialects continue to emerge, a significant limitation in developing dialect robust methodologies is the lack of available dialectal data. This is a shared limitation amongst most previous work on English dialects. This calls for an efficient dialect adaptation method that does not require additional dialect annotations.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column">
+          <div class="content">
+            <h2 class="title is-3">Dialectal Typology</h2>
+            <div class="image-section" style="text-align: center;">
+                <img src="./static/images/perturbation.png" alt="perturbation" style="max-width: 100%; height: auto; display: block; margin-left: auto; margin-right: auto; margin-bottom: 20px;">
+              </div>
+            <p>
+                Experts define dialects by their unique set of rules. The presence of these linguistic rules or linguistic features characterize the differences between various English dialects and Standard American English. An East Anglian English speaker would say "The man I met's girlfriend is a real beauty" instead of "The girlfriend of the man I met is a real beauty". Moreover, these features are attested at different rates, in such a way that the same group genitive feature may be prevalent or less common in dialects geographically close to speakers of the East Anglian dialect. We model the space of typological feature vectors along with their aggregation patterns to improve dialectal robustness.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column">
+        <div class="content">
+          <h2 class="title is-3">HyperLoRA</h2>
+          <p>
+            As a first step towards dialectal robustness, we present HyperLoRA, a highly scalable and efficient dialect adaptation method that provides some robustness against unseen dialects.
+          </p>
+          <div class="image-section" style="text-align: center;">
+            <img src="./static/images/pipeline.png" alt="perturbation" style="max-width: 100%; height: auto; display: block; margin-left: auto; margin-right: auto; margin-bottom: 20px;">
+          </div>
+          <h3>
+            Key Ingredients:
+          </h3>
+          <p>
+            <b>
+                Dialect Identification and Dataset Generation:
+            </b> We leverage known dialect feature vectors from eWAVE and employ the rule-based translation system of Multi-VALUE to generate parallel corpora for source dialects that are used to train HyperLoRA.
+            <br>
+            <br>
+            <b>
+                Hypernetwork-generated LoRA Modules:
+            </b> We train a hypernetwork to generate LoRA parameters from dialect feature vectors that adapt the backbone model to morphosyntactic variations present in the dialect of interest.
+            <br>
+            <br>
+            <b>
+                Unsupervised Morphosyntactic Alignment:
+            </b> We train HyperLoRA to minimize the Sinkhorn divergence. The generated LoRA modules can be used in a plug-and-play fashion in any downstream task. This can be done by injecting LoRA modules in combination with task-specific adapters in the backbone model.
+          </p>
+          <br>
+
+          By training the hypernetwork on synthetic parallel bitexts and taking as input only the dialect feature vector, we can effectively generate LoRA parameters for any dialect with known feature vector. As a result, no training is required for the new dialect. We find that by only training HyperLoRA on 4 source dialects, HyperLoRA gains a promising level of dialect robustness and can generalize to unseen dialect feature vectors.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column">
+        <div class="content">
+          <h2 class="title is-3">Resource Efficiency</h2>
+          <p>
+            HyperLoRA is highly resource efficient! We compare HyperLoRA to TADA (Held et al., 2023) trained on varying sample sizes from the target dialect. We add Standard American English trained task-specific adapters for the Quora Question Pairs task from the GLUE benchmark.
+          </p>
+          <div class="image-section" style="text-align: center;">
+            <img src="./static/images/qqp.png" alt="perturbation" style="max-width: 100%; height: auto; display: block; margin-left: auto; margin-right: auto; margin-bottom: 20px;">
+          </div>
+          <p>
+            For each target dialect, HyperLoRA (scattered blue line) is trained on 4 other dialects (e.g., for African American Vernacular English (AAVE), we train on Chicano English (ChcE), Indian English (IndE), Nigerian English (NgE), and Singaporean English). Without any samples from the target dialect, HyperLoRA can account for ~250 annotated samples that would otherwise be needed to train TADA (orange line).
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column">
+        <div class="content">
+          <h2 class="title is-3">Want to train your own HyperLoRA? We can help!</h2>
+          <p>
+            You want to train your own HyperLoRA, but you don't know where to start? We studied the impact of source dialects in HyperLoRA and developed a metric for feature coverage that can be used in addition to commonly used geographical and Manhattan distances.
+          </p>
+          <div class="image-section" style="text-align: center;">
+            <img src="./static/images/coverage.png" alt="perturbation" style="max-width: 50%; height: auto; display: block; margin-left: auto; margin-right: auto; margin-bottom: 20px;">
+          </div>
+          <p>
+            Training on 10 different sets of source dialects, we find that performance is maximized when both coverage is high and the mean Manhattan distance between source and target dialects is low. More details and experiments can be found in the paper.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column">
+        <div class="content">
+          <h2 class="title is-3">Takeaways</h2>
+          <p>
+            HyperLoRA provides a valuable degree of dialectal robustness at a negligible cost.
+            <ol>
+              <li><b>Resource Efficient:</b> With HyperLoRA, expert knowledge readily available on eWAVE is worth 250 annotated samples.</li>
+              <li><b>Budget Friendly:</b> HyperLoRA can be used off the shelf, and can provide some robustness before any further fine-tuning. </li>
+              <li><b>Highly scalable:</b> At inference, HyperLoRA can generate adapters for any unseen English dialect. </li>
+              <li><b>Lightweight:</b> The hypernetwork used in HyperLoRA is small and lightweight with only 0.5% additional parameters.</li>
+            </ol>
+            HyperLoRA holds great potential to enable billions of traditionally underrepresented English dialect speakers to access language technologies using their preferred languages.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column">
+        <div class="content">
+          <h2 class="title is-3">Limitations and Ethical Considerations</h2>
+          <p>
+            HyperLoRA is trained on pseudo-dialects obtained using the Multi-VALUE transformation rules, which are synthetic dialectal shifts that focus on morphology and syntax-related differences. It is important to note that these shifts do not encompass the entirety of possible variations found in real-world dialects. This limitation stems from the fact that dialects are not uniform entities and encompass diverse variations. Therefore, it is crucial for members of these dialect communities to take necessary precautions when applying HyperLoRA to their use cases.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>
+    @inproceedings{xiao-etal-2023-task,
+        title = "Task-Agnostic Low-Rank Adapters for Unseen English Dialects",
+        author = "Xiao, Zedian  and
+            Held, William  and
+            Liu, Yanchen  and
+            Yang, Diyi",
+        editor = "Bouamor, Houda  and
+            Pino, Juan  and
+            Bali, Kalika",
+        booktitle = "Proceedings of the 2023 Conference on Empirical Methods in Natural Language Processing",
+        month = dec,
+        year = "2023",
+        address = "Singapore",
+        publisher = "Association for Computational Linguistics",
+        url = "https://aclanthology.org/2023.emnlp-main.487",
+        doi = "10.18653/v1/2023.emnlp-main.487",
+        pages = "7857--7870",
+    }
+        </code></pre>
+  </div>
+</section>
+
+
+<footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This website is licensed under a <a rel="license"
+                                                href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+          <p>
+            This source code of this website is borrowed from <a
+              href="https://github.com/nerfies/nerfies.github.io">Nerfies</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
